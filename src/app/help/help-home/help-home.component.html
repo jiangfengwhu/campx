@@ -1,0 +1,97 @@
+<div
+  class="refb"
+  [style.top]="(layout.trans$ | async) ? '-25px' : '55px'"
+  align="center"
+  *ngIf="anynew$ | async"
+>
+  <button mat-mini-fab color="warn" (click)="refresh()">
+    <mat-icon
+      [style.animation]="isRefreshing ? 'rotation 2s infinite linear' : ''"
+      >refresh</mat-icon
+    >
+  </button>
+</div>
+<div class="pcontainer">
+  <div *ngFor="let info of infos; let i = index" class="item">
+    <p class="kp">{{ info.info }}</p>
+    <div class="imgs">
+      <img
+        [style.touch-action]="'auto'"
+        *ngFor="let img of info?.imgs; let ii = index"
+        [src]="ep.res + img + '_thb.jpeg'"
+        (click)="openDetail(detail, ii, info.imgs)"
+      />
+    </div>
+    <p class="footer">
+      {{ info.date * 1000 | date: "short" }}发布于<a
+        [routerLink]="[
+          layout.params.search
+            ? { search: layout.params.search, region: info.camp }
+            : { region: info.camp }
+        ]"
+        >{{ info.camp }}</a
+      >{{ info.wanted != 0 ? ", " + info.wanted + "次查看" : "" }}
+    </p>
+    <div class="action">
+      <button mat-icon-button>
+        <mat-icon>
+          filter_{{
+            info.imgs
+              ? info.imgs.length <= 9
+                ? info.imgs.length
+                : "9_plus"
+              : "none"
+          }}
+        </mat-icon>
+      </button>
+      <button mat-icon-button (click)="getPublisher(i)">
+        <mat-icon>mail_outline</mat-icon>
+      </button>
+      <button mat-icon-button (click)="openMark(i, addflag)">
+        <mat-icon>emoji_flags</mat-icon>
+      </button>
+      <button mat-icon-button (click)="share(i)">
+        <mat-icon>share</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<mat-progress-spinner
+  mode="indeterminate"
+  diameter="32"
+  *ngIf="isLoading"
+  color="accent"
+></mat-progress-spinner>
+<button mat-fab routerLink="./post">
+  <mat-icon>edit</mat-icon>
+</button>
+
+<ng-template #detail let-data>
+  <div class="imgdetail">
+    <img
+      #dimg
+      [src]="ep.res + data.ref[data.index]"
+      (swiperight)="pre(data, dimg)"
+      (swipeleft)="next(data, dimg)"
+      cxImgLoader
+    />
+  </div>
+</ng-template>
+
+<ng-template #addflag let-data>
+  <div class="flag">
+    <mat-form-field>
+      <input matInput placeholder="密码" [formControl]="passCtrl" />
+      <mat-hint>输入密码来进行标记操作</mat-hint>
+    </mat-form-field>
+    <button
+      mat-button
+      (click)="mark(data)"
+      [disabled]="!passCtrl.valid"
+      cxBtnIndicator
+      [progress]="isSubmitting"
+    >
+      确定
+    </button>
+  </div>
+</ng-template>

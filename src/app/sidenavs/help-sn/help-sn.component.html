@@ -1,0 +1,32 @@
+<div class="container">
+  <div>
+    <mat-form-field style="width: 100%;">
+      <input matInput placeholder="搜索学校" [formControl]="campCtrl" #si />
+      <mat-hint
+        >位于:
+        <span style="color:brown">{{
+          layout.params?.region || "全部区域"
+        }}</span
+        >, 搜索<span style="color:green">{{
+          layout.params?.search || "全部内容"
+        }}</span></mat-hint
+      >
+    </mat-form-field>
+  </div>
+  <mat-nav-list (click)="layout.isMobile ? (layout.opened = false) : 0">
+    <cdk-virtual-scroll-viewport
+      itemSize="48"
+      minBufferPx="288"
+      maxBufferPx="288"
+      style="height: 288px"
+    >
+      <mat-list-item (click)="setRegion('')">取消区域设置</mat-list-item>
+      <mat-list-item
+        *cdkVirtualFor="let camp of filtered$ | async"
+        (click)="setRegion(camp)"
+      >
+        {{ camp }}
+      </mat-list-item>
+    </cdk-virtual-scroll-viewport>
+  </mat-nav-list>
+</div>

@@ -1,0 +1,35 @@
+<mat-grid-list cols="3" rowHeight="1:1" cdkDropListGroup>
+  <mat-grid-tile *ngFor="let img of imgItems; let i = index">
+    <cdk-drop-list [cdkDropListData]="i" class="wrapper">
+      <img
+        cdkDrag
+        (cdkDragDropped)="handleDrop($event)"
+        (cdkDragEntered)="handleEnter($event)"
+        [cdkDragData]="i"
+        [src]="img.url | sanitize: 'url'"
+      />
+      <div class="msg">
+        <button
+          mat-icon-button
+          *ngIf="img.deletable; else msgcont"
+          (click)="delete(i)"
+        >
+          <mat-icon>
+            delete
+          </mat-icon>
+        </button>
+        <ng-template #msgcont>
+          <strong>{{ img.msg }}</strong>
+        </ng-template>
+      </div>
+    </cdk-drop-list>
+  </mat-grid-tile>
+</mat-grid-list>
+<input
+  multiple
+  #infile
+  (change)="addFiles(infile.files)"
+  type="file"
+  accept="image/*"
+  style="display: none"
+/>

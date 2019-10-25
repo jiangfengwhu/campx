@@ -1,0 +1,88 @@
+<form [formGroup]="postForm" (ngSubmit)="submit()">
+  <mat-form-field>
+    <textarea
+      required
+      cdkTextareaAutosize
+      matInput
+      placeholder="信息"
+      formControlName="info"
+    ></textarea>
+    <mat-hint>发布信息的具体内容</mat-hint>
+    <mat-error>此项为必填项</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      required
+      placeholder="密码"
+      matInput
+      formControlName="password"
+      [type]="hide ? 'password' : 'text'"
+    />
+    <mat-error>此项为必填项</mat-error>
+    <mat-hint>用于对发布的信息进行删除，标记等</mat-hint>
+    <mat-icon matSuffix (click)="hide = !hide">{{
+      hide ? "visibility_off" : "visibility"
+    }}</mat-icon>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea
+      required
+      cdkTextareaAutosize
+      matInput
+      placeholder="联系方式"
+      formControlName="contact_info"
+    ></textarea>
+    <mat-hint>展示给有意向用户的内容</mat-hint>
+    <mat-error>此项为必填项</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      required
+      matInput
+      placeholder="学校"
+      aria-label="学校"
+      [matAutocomplete]="auto"
+      formControlName="camp"
+    />
+    <mat-autocomplete #auto="matAutocomplete">
+      <cdk-virtual-scroll-viewport
+        itemSize="48"
+        minBufferPx="240"
+        maxBufferPx="240"
+        style="height: 240px"
+      >
+        <mat-option
+          *cdkVirtualFor="let camp of filtered$ | async"
+          [value]="camp"
+        >
+          {{ camp }}
+        </mat-option>
+      </cdk-virtual-scroll-viewport>
+    </mat-autocomplete>
+    <mat-error *ngIf="postForm.get('camp').hasError('required')">
+      此项为必填项
+    </mat-error>
+    <mat-error *ngIf="postForm.get('camp').hasError('forbiddenName')">
+      未找到{{ postForm.get("camp").value }}
+    </mat-error>
+    <mat-hint>填写你所在的学校</mat-hint>
+  </mat-form-field>
+  <cx-img-uploader [imgItems]="imgItems" #imguploader></cx-img-uploader>
+  <div class="action">
+    <button
+      mat-fab
+      type="button"
+      (click)="imguploader.infile.nativeElement.click()"
+    >
+      <mat-icon>camera</mat-icon>
+    </button>
+    <button
+      mat-fab
+      [disabled]="!postForm.valid"
+      [progress]="isSubmitting"
+      cxBtnIndicator
+    >
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</form>

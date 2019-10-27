@@ -10,8 +10,8 @@
   <button mat-icon-button (click)="layout.opened = !layout.opened">
     <mat-icon>menu</mat-icon>
   </button>
-  <ng-container *ngIf="!(layout.screen$ | async); else mobile">
-    <span>CampX</span>
+  <ng-container *ngIf="!layout.isMobile; else mobile">
+    <a routerLink="" class="logo">CampX</a>
     <span class="spacer"></span>
     <a
       *ngFor="let nav of navs"
@@ -22,7 +22,11 @@
     >
   </ng-container>
   <span class="spacer"></span>
-  <button mat-icon-button (click)="sinput.focus()" style="margin: 0;">
+  <button
+    mat-icon-button
+    (click)="sinput.focus()"
+    [style.color]="layout.params?.search ? 'magenta' : 'black'"
+  >
     <mat-icon>search</mat-icon>
   </button>
   <mat-form-field
@@ -40,15 +44,16 @@
   </mat-form-field>
 </nav>
 <div
-  *ngIf="(layout.screen$ | async) && layout.opened"
+  *ngIf="layout.isMobile && layout.opened"
   class="overlay"
   (click)="layout.opened = false"
 ></div>
 <div
   class="sidenav"
-  [class.mobile]="layout.screen$ | async"
+  [class.mobile]="layout.isMobile"
   [style.left]="layout.opened ? '0' : '-285px'"
-  [style.top]="(layout.trans$ | async) && !(layout.screen$ | async) ? '0' : ''"
+  [style.top]="!layout.isMobile && (layout.trans$ | async) ? '0' : ''"
+  [style.height]="!layout.isMobile && (layout.trans$ | async) ? '100%' : ''"
 >
   <div [@slideInAnimation]="so.isActivated ? so.activatedRoute : ''">
     <router-outlet name="sidenav" #so="outlet"></router-outlet>
@@ -57,18 +62,18 @@
 <div
   [@fadeAnimation]="o.isActivated ? o.activatedRoute : ''"
   class="pr"
-  [style.margin-left]="
-    !(layout.screen$ | async) && layout.opened ? '280px' : '0'
-  "
+  [style.margin-left]="!layout.isMobile && layout.opened ? '280px' : '0'"
 >
   <router-outlet #o="outlet"></router-outlet>
 </div>
 
 <ng-template #mobile>
   <span class="spacer"></span>
-  <span>CampX</span>
+  <span style="color:mediumvioletred">CampX</span>
   <span class="sepline"></span>
-  <span [matMenuTriggerFor]="navMenu">{{ loc?.name }}</span>
+  <span [matMenuTriggerFor]="navMenu" style="color: brown;">{{
+    loc?.name
+  }}</span>
   <mat-menu #navMenu="matMenu">
     <button mat-menu-item *ngFor="let nav of navs" [routerLink]="nav.link">
       {{ nav.name }}

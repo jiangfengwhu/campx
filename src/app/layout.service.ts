@@ -26,6 +26,7 @@ export class LayoutService {
         this.opened = !this.isMobile;
       })
     );
+    this.screen$.subscribe();
     let prevScrollpos = window.pageYOffset;
     this.trans$ = fromEvent(window, "scroll").pipe(
       map(() => {

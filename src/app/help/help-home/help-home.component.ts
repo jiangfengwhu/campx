@@ -85,7 +85,7 @@ export class HelpHomeComponent implements OnInit {
     if (!this.route.snapshot.params["id"]) {
       window.addEventListener("scroll", this.listenScr);
       if (!this.newSub || this.newSub.closed) {
-        this.newSub = interval(1000 * 60 * 5)
+        this.newSub = interval(1000 * 60 * 1)
           .pipe(
             switchMap(() =>
               this._info.checknew(

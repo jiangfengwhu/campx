@@ -33,9 +33,7 @@ export class ImgLoaderDirective {
     this.img = this.eleRef.nativeElement;
     this.img.onload = () => {
       this.vcf.clear();
-      setTimeout(() => {
-        this.container.style.boxShadow = shadow;
-      }, 300);
+      this.container.style.boxShadow = shadow;
       this.container.style.background = bkg;
       this.img.style.display = "block";
     };

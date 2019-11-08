@@ -4,8 +4,8 @@ import { HelpSnComponent } from "./help-sn/help-sn.component";
 import { VideoSnComponent } from "./video-sn/video-sn.component";
 
 const routes: Routes = [
-  { path: "video", component: VideoSnComponent, outlet: "sidenav" },
-  { path: "", component: HelpSnComponent, outlet: "sidenav" }
+  { path: "help", component: HelpSnComponent, outlet: "sidenav" },
+  { path: "", component: VideoSnComponent, outlet: "sidenav" }
 ];
 
 @NgModule({

@@ -1,0 +1,50 @@
+<div
+  class="container"
+  [style.grid-template-columns]="layout.isMobile ? '1fr' : 'auto 250px'"
+>
+  <div class="wrapper">
+    <video
+      controls
+      cxP2pVideo
+      [src]="
+        ep.res +
+        '/videos/' +
+        video.id +
+        '/' +
+        ((route.fragment | async) || deft) +
+        '/playlist.m3u8'
+      "
+      [poster]="ep.res + '/videos/' + video.id + '/cover.jpg'"
+      [style.min-height]="layout.isMobile ? '' : '560px'"
+      playsinline
+      #peervideo="p2pHls"
+    ></video>
+    <div class="btinfo">
+      <span>Peers: {{ peervideo.numPeers }}</span>
+      <span>上传: {{ peervideo.uploaded | bytes }}</span>
+    </div>
+  </div>
+  <cdk-virtual-scroll-viewport
+    [orientation]="(layout.screen$ | async) ? 'horizontal' : 'vertical'"
+    [itemSize]="layout.isMobile ? 165 : 140"
+    [class.mov]="layout.isMobile"
+  >
+    <div
+      *cdkVirtualFor="let v of video.videos"
+      [ngClass]="(layout.screen$ | async) ? 'mimg' : 'pcimg'"
+    >
+      <a routerLink="./" [fragment]="v">
+        <img [src]="ep.res + '/videos/' + video.id + '/' + v + '/cover.jpg'" />
+      </a>
+      <div class="indic">{{ v }}集</div>
+    </div>
+  </cdk-virtual-scroll-viewport>
+  <div class="intro">
+    <div>{{ video.name }}: {{ (route.fragment | async) || deft }}集</div>
+    <div>播放: {{ video.view }}</div>
+    <div>分类: {{ video.year + video.region }}, 类型: {{ video.tags }}</div>
+    <div>主演: {{ video.actors }}</div>
+    <div>首播: {{ video.first }}</div>
+    <div class="kp">{{ video.desc }}</div>
+  </div>
+</div>

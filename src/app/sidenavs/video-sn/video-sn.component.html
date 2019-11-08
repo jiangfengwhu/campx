@@ -1,1 +1,13 @@
-<p>video-sn works!</p>
+<mat-expansion-panel
+  *ngFor="let panel of navs; let i = index"
+  [expanded]="true"
+>
+  <mat-expansion-panel-header>
+    {{ panel.header }}
+  </mat-expansion-panel-header>
+  <mat-nav-list (click)="layout.isMobile ? (layout.opened = false) : 0">
+    <mat-list-item *ngFor="let nav of panel.cat" [routerLink]="nav.path">{{
+      nav.name
+    }}</mat-list-item>
+  </mat-nav-list>
+</mat-expansion-panel>

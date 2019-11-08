@@ -33,9 +33,11 @@
     floatLabel="never"
     [style.width]="sinput.focused ? '35vw' : '0'"
   >
+    <mat-placeholder
+      >在{{ layout.params?.region || "所有" }}中搜索</mat-placeholder
+    >
     <input
       matInput
-      placeholder="搜索"
       #sinput="matInput"
       [attr.value]="layout.params?.search"
       (focus)="$event.target.select()"

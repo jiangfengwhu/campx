@@ -1,5 +1,30 @@
-<button mat-fab>
-  <mat-icon>
-    video_call
-  </mat-icon>
-</button>
+<div class="container">
+  <div *ngFor="let series of datasets | keyvalue: numberedKeyOrder">
+    <div class="header">
+      {{ header + series.key }}
+    </div>
+    <div
+      class="col"
+      [style.grid-template-columns]="
+        'repeat(' + (layout.isMobile ? 2 : 4) + ', 1fr)' | sanitize: 'style'
+      "
+    >
+      <div class="item" *ngFor="let item of series.value">
+        <div class="wrapper">
+          <a [routerLink]="[item.id]"
+            ><img [src]="ep.res + '/videos/' + item.id + '/cover.jpg'"
+          /></a>
+          <div class="status">
+            {{ item.end ? "已完结" : "更新于: " + (item.last * 1000 | cdate) }}
+          </div>
+        </div>
+        <div class="cont">
+          <div>
+            {{ item.name + " (" + item.origin_name + ") " + "\n" }}
+          </div>
+          <div>{{ item.actors }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

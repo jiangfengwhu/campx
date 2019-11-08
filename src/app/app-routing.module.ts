@@ -11,7 +11,7 @@ const routes: Routes = [
     loadChildren: () =>
       import("./video/video.module").then(mod => mod.VideoModule)
   },
-  { path: "", redirectTo: "help", pathMatch: "full" }
+  { path: "", redirectTo: "video", pathMatch: "full" }
 ];
 
 @NgModule({

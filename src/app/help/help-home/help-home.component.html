@@ -18,7 +18,7 @@
       <img
         [style.touch-action]="'auto'"
         *ngFor="let img of info?.imgs; let ii = index"
-        [src]="ep.res + img + '_thb.jpeg'"
+        [src]="ep.res + '/imgs/' + img + '_thb.jpeg'"
         (click)="openDetail(detail, ii, info.imgs)"
       />
     </div>
@@ -70,7 +70,7 @@
   <div class="imgdetail">
     <img
       #dimg
-      [src]="ep.res + data.ref[data.index]"
+      [src]="ep.res + '/imgs/' + data.ref[data.index]"
       (swiperight)="pre(data, dimg)"
       (swipeleft)="next(data, dimg)"
       cxImgLoader

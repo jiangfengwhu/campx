@@ -109,7 +109,7 @@ export class HelpHomeComponent implements OnInit {
   preloadImg(data: any) {
     let imgs = [].concat.apply([], data.map(ele => ele.imgs));
     imgs.forEach(ele => {
-      new Image().src = this.ep.res + ele;
+      new Image().src = this.ep.res + "/imgs/" + ele;
     });
   }
   ngOnDestroy() {

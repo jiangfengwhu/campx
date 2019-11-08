@@ -40,4 +40,7 @@ export class HelpSnComponent implements OnInit {
     this.router.navigate([query]);
     this.campCtrl.setValue("");
   }
+  mailto() {
+    window.location.href = "mailto:809740942@qq.com";
+  }
 }

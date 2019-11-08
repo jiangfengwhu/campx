@@ -25,13 +25,21 @@ import { SanitizePipe } from "./sanitize.pipe";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { MatListModule } from "@angular/material/list";
+import { MatSelectModule } from "@angular/material/select";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { P2pVideoDirective } from "./p2p-video.directive";
+import { BytesPipe } from "./bytes.pipe";
+import { CdatePipe } from "./cdate.pipe";
 
 @NgModule({
   declarations: [
     BtnIndicatorDirective,
     ImgLoaderDirective,
     ImgUploaderComponent,
-    SanitizePipe
+    SanitizePipe,
+    P2pVideoDirective,
+    BytesPipe,
+    CdatePipe
   ],
   imports: [
     CommonModule,
@@ -62,7 +70,13 @@ import { MatListModule } from "@angular/material/list";
     ImgUploaderComponent,
     MatAutocompleteModule,
     ScrollingModule,
-    MatListModule
+    MatSelectModule,
+    MatListModule,
+    MatExpansionModule,
+    SanitizePipe,
+    P2pVideoDirective,
+    BytesPipe,
+    CdatePipe
   ]
 })
 export class SharedModule {}

@@ -24,11 +24,11 @@ export class AppComponent implements OnInit {
   navs = [
     {
       name: "校园帮",
-      link: { outlets: { primary: "help", sidenav: null } }
+      link: { outlets: { primary: "help", sidenav: ["help"] } }
     },
     {
       name: "放映屋",
-      link: { outlets: { primary: "video", sidenav: ["video"] } }
+      link: { outlets: { primary: "video", sidenav: null } }
     }
   ];
   constructor(

@@ -11,6 +11,10 @@ const routes: Routes = [
     loadChildren: () =>
       import("./video/video.module").then(mod => mod.VideoModule)
   },
+  {
+    path: "chat",
+    loadChildren: () => import("./chat/chat.module").then(mod => mod.ChatModule)
+  },
   { path: "", redirectTo: "video", pathMatch: "full" }
 ];
 

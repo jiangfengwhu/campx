@@ -39,6 +39,8 @@ export class VideoHomeComponent implements OnInit {
     });
   }
   numberedKeyOrder(a: KeyValue<string, any>, b: KeyValue<string, any>): number {
-    return a.key < b.key ? 1 : b.key < a.key ? -1 : 0;
+    const ca = a.key.match(/\d+/g);
+    const cb = b.key.match(/\d+/g);
+    return ca < cb ? 1 : cb < ca ? -1 : 0;
   }
 }

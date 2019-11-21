@@ -30,6 +30,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { P2pVideoDirective } from "./p2p-video.directive";
 import { BytesPipe } from "./bytes.pipe";
 import { CdatePipe } from "./cdate.pipe";
+import { MatRadioModule } from "@angular/material/radio";
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { CdatePipe } from "./cdate.pipe";
     SanitizePipe,
     P2pVideoDirective,
     BytesPipe,
-    CdatePipe
+    CdatePipe,
+    MatRadioModule
   ]
 })
 export class SharedModule {}

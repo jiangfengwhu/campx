@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="header">
+    <mat-radio-group #gender="matRadioGroup" [value]="chat.gender || 'false'">
+      <mat-radio-button value="false">男</mat-radio-button>
+      <mat-radio-button value="true">女</mat-radio-button>
+    </mat-radio-group>
+    <button
+      mat-button
+      [disabled]="!gender.value || chat.room?.isMatching"
+      (click)="action(gender.value)"
+    >
+      {{
+        chat.room?.isMatching
+          ? "正在匹配"
+          : chat.room?.isMatched
+          ? "离开"
+          : "开始匹配"
+      }}
+    </button>
+  </div>
+  <ng-container *ngIf="chat.room">
+    <div align="center">{{ chat.room?.info }}</div>
+    <div class="chat" #chatbody [scrollTop]="chatbody.scrollHeight">
+      <ng-container *ngFor="let msg of chat.room.msgs">
+        <div class="bubble">
+          <div *ngIf="chat.id === msg.from" class="spacer"></div>
+          <div *ngIf="msg.status === false" class="indicator"></div>
+          <div
+            class="dia mat-elevation-z3 kp"
+            [style.background]="chat.id === msg.from ? 'lightgreen' : 'orange'"
+            *ngIf="msg.header == 'text'"
+          >{{ msg.body }}</div>
+          <img
+            [src]="msg.body"
+            *ngIf="msg.header == 'img'"
+            class="mat-elevation-z3"
+            (load)="scr(chatbody)"
+          />
+        </div>
+      </ng-container>
+    </div>
+    <div class="header" *ngIf="chat.room?.isMatched">
+      <mat-form-field>
+        <textarea
+          matInput
+          cdkTextareaAutosize
+          #sendinput
+          (keydown)="keyb($event)"
+        ></textarea>
+      </mat-form-field>
+      <button mat-icon-button (click)="infile.click()">
+        <mat-icon>image</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        (click)="send(sendinput)"
+        [disabled]="!sendinput.value"
+      >
+        <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </ng-container>
+  <input
+    multiple
+    #infile
+    (change)="addFiles(infile.files)"
+    type="file"
+    accept="image/*"
+    style="display: none"
+  />
+</div>

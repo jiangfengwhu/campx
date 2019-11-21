@@ -19,6 +19,6 @@ export const END_POINTS = new InjectionToken<Endpoints>("end points", {
       : {
           api: "http://localhost:8080/v1",
           res: "http://localhost:8080/public",
-          ws: "ws://localhost:8080/websocket"
+          ws: "ws://localhost:8080"
         }
 });

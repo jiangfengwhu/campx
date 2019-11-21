@@ -29,6 +29,10 @@ export class AppComponent implements OnInit {
     {
       name: "放映屋",
       link: { outlets: { primary: "video", sidenav: null } }
+    },
+    {
+      name: "聊天室",
+      link: { outlets: { primary: "chat", sidenav: ["chat"] } }
     }
   ];
   constructor(

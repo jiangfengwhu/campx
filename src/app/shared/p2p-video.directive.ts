@@ -1,4 +1,11 @@
-import { Directive, Input, OnDestroy, ElementRef, Inject } from "@angular/core";
+import {
+  Directive,
+  Input,
+  OnDestroy,
+  ElementRef,
+  Inject,
+  ChangeDetectorRef
+} from "@angular/core";
 import * as Hls from "hls.js";
 import { END_POINTS, Endpoints } from "../utils/api";
 declare var p2pml: any;
@@ -35,6 +42,7 @@ export class P2pVideoDirective implements OnDestroy {
   engine: any;
   constructor(
     private eleref: ElementRef,
+    private dec: ChangeDetectorRef,
     @Inject(END_POINTS) private ep: Endpoints
   ) {
     this.videoele = this.eleref.nativeElement;
@@ -58,7 +66,7 @@ export class P2pVideoDirective implements OnDestroy {
     this.engine = new p2pml.hlsjs.Engine({
       loader: {
         requiredSegmentsPriority: 9,
-        trackerAnnounce: [this.ep.ws],
+        trackerAnnounce: [this.ep.ws + "/tr"],
         rtcConfig: {
           iceServers: [
             {
@@ -76,14 +84,17 @@ export class P2pVideoDirective implements OnDestroy {
     p2pml.hlsjs.initHlsJsPlayer(this.hls);
     this.engine.on(p2pml.core.Events.PeerConnect, peer => {
       ++this.numPeers;
+      this.dec.markForCheck();
     });
     this.engine.on(p2pml.core.Events.PeerClose, peer => {
       --this.numPeers;
+      this.dec.markForCheck();
     });
     this.engine.on(
       p2pml.core.Events.PieceBytesUploaded,
       (method, bytes, peerId) => {
         this.uploaded += bytes;
+        this.dec.markForCheck();
       }
     );
   }

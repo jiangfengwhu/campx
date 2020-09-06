@@ -70,7 +70,7 @@ export class P2pVideoDirective implements OnDestroy {
         rtcConfig: {
           iceServers: [
             {
-              urls: "stun:94.199.101.241:3478"
+              urls: "stun:94.199.101.152:3478"
             }
           ]
         }

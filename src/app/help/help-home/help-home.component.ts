@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   TemplateRef,
   ChangeDetectorRef,
-  Inject
+  Inject,
 } from "@angular/core";
 import * as PullToRefresh from "pulltorefreshjs";
 import * as clip from "copy-text-to-clipboard";
@@ -23,7 +23,7 @@ import { LayoutService } from "src/app/layout.service";
   selector: "cx-help-home",
   templateUrl: "./help-home.component.html",
   styleUrls: ["./help-home.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HelpHomeComponent implements OnInit {
   isSubmitting = false;
@@ -45,7 +45,7 @@ export class HelpHomeComponent implements OnInit {
     public layout: LayoutService
   ) {}
   ngOnInit() {
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       this.loadData(data["infos"]);
     });
     this.ptr = PullToRefresh.init({
@@ -55,12 +55,12 @@ export class HelpHomeComponent implements OnInit {
       instructionsRefreshing: "正在刷新",
       onRefresh: () => {
         return this.iniLoad(this.route.snapshot.params).toPromise();
-      }
+      },
     });
   }
   iniLoad(pars) {
     return this._info.getLatest("f".repeat(24), 10, pars).pipe(
-      mergeMap(infos => {
+      mergeMap((infos) => {
         if (infos) {
           return of(infos);
         } else {
@@ -94,7 +94,7 @@ export class HelpHomeComponent implements OnInit {
               )
             ),
             distinctUntilChanged(),
-            tap(re => {
+            tap((re) => {
               this.anynew$.next(re);
               if (re) {
                 this.newSub.unsubscribe();
@@ -107,8 +107,11 @@ export class HelpHomeComponent implements OnInit {
     this.preloadImg(data);
   }
   preloadImg(data: any) {
-    let imgs = [].concat.apply([], data.map(ele => ele.imgs));
-    imgs.forEach(ele => {
+    let imgs = [].concat.apply(
+      [],
+      data.map((ele) => ele.imgs)
+    );
+    imgs.forEach((ele) => {
       new Image().src = this.ep.res + "/imgs/" + ele;
     });
   }
@@ -140,7 +143,7 @@ export class HelpHomeComponent implements OnInit {
         .subscribe((re: any[]) => {
           this.isLoading = false;
           if (re) {
-            re.forEach(tp => {
+            re.forEach((tp) => {
               this.infos.push(tp);
             });
             this.preloadImg(re);
@@ -160,10 +163,10 @@ export class HelpHomeComponent implements OnInit {
         : "获取失败",
       "关闭",
       {
-        duration: 2000
+        duration: 2000,
       }
     );
-    this._info.wanted(this.infos[index].id).subscribe(re => {
+    this._info.wanted(this.infos[index].id).subscribe((re) => {
       if (re["status"]) {
         this.infos[index].wanted++;
         this.changedec.markForCheck();
@@ -175,15 +178,17 @@ export class HelpHomeComponent implements OnInit {
       clip(
         this.infos[index].info +
           "\n详情点击: " +
-          location.href +
+          location.origin +
+          "/help" +
           ";id=" +
-          this.infos[index].id
+          this.infos[index].id +
+          "(sidenav:help)"
       )
         ? "已复制详情到粘贴板"
         : "分享失败",
       "关闭",
       {
-        duration: 2000
+        duration: 2000,
       }
     );
   }
@@ -191,7 +196,7 @@ export class HelpHomeComponent implements OnInit {
     this.passCtrl = new FormControl("", [Validators.required]);
     this.dialog.open(tpl, {
       data: index,
-      scrollStrategy: this._overlay.scrollStrategies.noop()
+      scrollStrategy: this._overlay.scrollStrategies.noop(),
     });
   }
   mark(index: number) {
@@ -199,9 +204,9 @@ export class HelpHomeComponent implements OnInit {
     this._info
       .mark({
         id: this.infos[index].id,
-        password: this.passCtrl.value
+        password: this.passCtrl.value,
       })
-      .subscribe(re => {
+      .subscribe((re) => {
         this.isSubmitting = false;
         if (re["status"]) {
           this.infos.splice(index, 1);
@@ -214,11 +219,11 @@ export class HelpHomeComponent implements OnInit {
     this.dialog.open(tpl, {
       data: {
         index: index,
-        ref: ref
+        ref: ref,
       },
       maxWidth: "100vw",
       panelClass: "diaborder",
-      scrollStrategy: this._overlay.scrollStrategies.noop()
+      scrollStrategy: this._overlay.scrollStrategies.noop(),
     });
   }
   pre(data: any, img: HTMLImageElement) {

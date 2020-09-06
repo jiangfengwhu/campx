@@ -12,9 +12,9 @@ export const END_POINTS = new InjectionToken<Endpoints>("end points", {
   factory: () =>
     environment.production
       ? {
-          api: "https://api.campx.cc:8888/v1",
-          res: "https://res.campx.cc:8888",
-          ws: "wss://ws.campx.cc:8888"
+          api: "https://api.campx.cc/v1",
+          res: "https://res.campx.cc",
+          ws: "wss://ws.campx.cc"
         }
       : {
           api: "http://localhost:8080/v1",
